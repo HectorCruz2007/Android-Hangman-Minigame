@@ -1,5 +1,7 @@
 package com.zukesito.minigame
 
+import androidx.annotation.DrawableRes
+
 //Normalizar input
 fun String.toLetterOrNull(): Char? {
     val letter = this.lastOrNull()?.uppercaseChar() ?: return null
@@ -38,4 +40,18 @@ fun Int.toSpacesMessage(): String {
 // Convierte los errores a un valor de 0 a 1 para la barra de progreso
 fun Int.toErrorProgress(): Float {
     return this.toFloat() / HangmanRules.MAX_ERRORS
+}
+
+@DrawableRes
+fun Int.toHangmanImage(): Int? {
+    return when (this) {
+        0 -> R.drawable.hangman_0
+        1 -> R.drawable.hangman_1
+        2 -> R.drawable.hangman_2
+        3 -> R.drawable.hangman_3
+        4 -> R.drawable.hangman_4
+        5 -> R.drawable.hangman_5
+        6 -> R.drawable.hangman_6
+        else -> R.drawable.hangman_0
+    }
 }
