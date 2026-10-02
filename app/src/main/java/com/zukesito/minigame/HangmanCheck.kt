@@ -43,6 +43,7 @@ fun Int.toErrorProgress(): Float {
 }
 
 @DrawableRes
+// Imagenes
 fun Int.toHangmanImage(): Int? {
     return when (this) {
         0 -> R.drawable.hangman_0

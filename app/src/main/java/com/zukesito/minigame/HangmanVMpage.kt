@@ -20,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
 fun HangmanPage(
@@ -49,7 +49,7 @@ fun HangmanPage(
     // Inicializa el juego
     LaunchedEffect(Unit) {
         val wordProvider = ResourceWordProvider(context.resources)
-        viewModel.startNewGame(wordProvider)
+        viewModel.startGameIfNeeded(wordProvider)
     }
 
     Column(
@@ -95,10 +95,12 @@ fun HangmanPage(
         if (status == GameStatus.PLAYING) {
             LetterInput(onLetterSubmit = { letter -> viewModel.onLetterInput(letter) })
         } else {
-            Button(onClick = {
+            Button(
+                onClick = {
                 val wordProvider = ResourceWordProvider(context.resources)
-                viewModel.startNewGame(wordProvider)
-            }) {
+                viewModel.startNewGame(wordProvider) }
+            )
+            {
                 Text("Reiniciar")
             }
         }
@@ -107,7 +109,7 @@ fun HangmanPage(
 
 @Composable
 fun LetterInput(onLetterSubmit: (String) -> Unit) {
-    var textInput by remember { mutableStateOf("") }
+    var textInput by rememberSaveable { mutableStateOf("") }
 
     Row(
         verticalAlignment = Alignment.CenterVertically

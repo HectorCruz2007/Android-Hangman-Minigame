@@ -96,6 +96,13 @@ class HangmanVM : ViewModel() {
         updateGame()
     }
 
+    // Inicia la partida solo si no hay palabra
+    fun startGameIfNeeded(wordProvider: WordProvider) {
+        if (secretWord.isEmpty()) {
+            startNewGame(wordProvider)
+        }
+    }
+
     // Actualiza estados
     private fun updateGame() {
         _displayWord.value = secretWord.toDisplayWord(_correctLetters.value)
