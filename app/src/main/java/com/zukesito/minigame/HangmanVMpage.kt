@@ -82,7 +82,7 @@ fun HangmanPage(
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = 4.sp,
-            color = linesColor
+            color = letterColor
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -116,7 +116,7 @@ fun HangmanPage(
 // Colores de app
 val mainColor = Color.Red
 val secondColor = Color.Black
-val linesColor = Color.Black
+val letterColor = Color.Black
 val textColors = Color.Black
 
 // Color de botón
