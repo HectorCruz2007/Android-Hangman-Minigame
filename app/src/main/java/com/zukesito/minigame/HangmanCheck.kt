@@ -2,7 +2,7 @@ package com.zukesito.minigame
 
 //Normalizar input
 fun String.toLetterOrNull(): Char? {
-    val letter = this.last().uppercaseChar()
+    val letter = this.lastOrNull()?.uppercaseChar() ?: return null
     if (letter in 'A'..'Z') {
         return letter
     }
