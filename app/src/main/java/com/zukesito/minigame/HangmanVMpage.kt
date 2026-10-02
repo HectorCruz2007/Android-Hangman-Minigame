@@ -94,7 +94,7 @@ fun HangmanPage(
             color = textColors
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(26.dp))
 
         // Input de letra o reinicio
         if (status == GameStatus.PLAYING) {
@@ -114,7 +114,7 @@ fun HangmanPage(
 }
 
 // Colores de app
-val mainColor = Color.Red
+val mainColor = Color.Black
 val secondColor = Color.Black
 val letterColor = Color.Black
 val textColors = Color.Black
@@ -176,7 +176,8 @@ fun LetterInput(onLetterSubmit: (String) -> Unit) {
                     textInput = ""
                 }
             },
-            colors = buttonColors()
+            colors = buttonColors(),
+            modifier = Modifier.width(100.dp),
         ) {
             Text("Enviar")
         }
