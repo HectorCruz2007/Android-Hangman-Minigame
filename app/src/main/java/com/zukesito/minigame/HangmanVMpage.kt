@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 
 @Composable
 fun HangmanPage(
@@ -78,7 +81,8 @@ fun HangmanPage(
             text = displayWord,
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            letterSpacing = 4.sp
+            letterSpacing = 4.sp,
+            color = linesColor
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -86,7 +90,8 @@ fun HangmanPage(
         // Mensaje de estado
         Text(
             text = message,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            color = textColors
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -97,15 +102,39 @@ fun HangmanPage(
         } else {
             Button(
                 onClick = {
-                val wordProvider = ResourceWordProvider(context.resources)
-                viewModel.startNewGame(wordProvider) }
-            )
-            {
+                    val wordProvider = ResourceWordProvider(context.resources)
+                    viewModel.startNewGame(wordProvider)
+                },
+                colors = buttonColors()
+            ) {
                 Text("Reiniciar")
             }
         }
     }
 }
+
+// Colores de app
+val mainColor = Color.Red
+val secondColor = Color.Black
+val linesColor = Color.Black
+val textColors = Color.Black
+
+// Color de botón
+@Composable
+fun buttonColors() = ButtonDefaults.buttonColors(
+    containerColor = mainColor,
+    contentColor = Color.White
+)
+
+// Color de textField
+@Composable
+fun textFieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedBorderColor = mainColor, // Borde Focus
+    unfocusedBorderColor = secondColor, // Borde Default
+    focusedLabelColor = mainColor, // Texto Focus
+    unfocusedLabelColor = secondColor, // Texto Default
+    cursorColor = mainColor // Barra parpadeante
+)
 
 @Composable
 fun LetterInput(onLetterSubmit: (String) -> Unit) {
@@ -122,6 +151,7 @@ fun LetterInput(onLetterSubmit: (String) -> Unit) {
             label = { Text("Letra") },
             singleLine = true,
             modifier = Modifier.width(80.dp),
+            colors = textFieldColors(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Characters,
@@ -145,7 +175,8 @@ fun LetterInput(onLetterSubmit: (String) -> Unit) {
                     onLetterSubmit(textInput)
                     textInput = ""
                 }
-            }
+            },
+            colors = buttonColors()
         ) {
             Text("Enviar")
         }
