@@ -54,17 +54,17 @@ En cada partida se elige al azar una palabra misteriosa de una lista de ~100 pal
 ### UDF (Unidirectional Data Flow)
 
 ```
- ┌──────────────┐   evento: onLetterInput(letra)   ┌─────────────┐
- │  Composable  │ ───────────────────────────────▶ │  HangmanVM  │
- │   (View)     │                                  │             │
- │              │ ◀─────────────────────────────── │  StateFlow  │
- └──────────────┘   estado: collectAsState()       └─────────────┘
+ ┌──────────────┐   evento: onLetterInput(letra)                ┌─────────────┐
+ │  Composable  │ ────────────────────────────────────────────▶ │  HangmanVM  │
+ │   (View)     │                                               │             │
+ │              │ ◀──────────────────────────────────────────── │  StateFlow  │
+ └──────────────┘   estado: collectAsStateWithLifeCycle()       └─────────────┘
 ```
 
 1. El usuario escribe una letra y pulsa **Enviar** (o la tecla Send del teclado).
 2. El composable llama a `viewModel.onLetterInput(letra)`.
 3. El ViewModel valida, actualiza los `StateFlow` y ejecuta `updateGame()`.
-4. La UI recompone automáticamente al recolectar los nuevos valores con `collectAsState()`.
+4. La UI recompone automáticamente al recolectar los nuevos valores con `collectAsStateWithLifeCycle()`.
 
 El estado fluye **hacia abajo** y los eventos **hacia arriba**; la UI nunca modifica el estado directamente.
 
