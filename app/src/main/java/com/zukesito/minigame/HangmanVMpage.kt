@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun HangmanPage(
@@ -44,10 +45,10 @@ fun HangmanPage(
     val context = LocalContext.current
 
     // Lectura de estados
-    val displayWord by viewModel.displayWord.collectAsState()
-    val errors by viewModel.errors.collectAsState()
-    val message by viewModel.message.collectAsState()
-    val status by viewModel.status.collectAsState()
+    val displayWord by viewModel.displayWord.collectAsStateWithLifecycle()
+    val errors by viewModel.errors.collectAsStateWithLifecycle()
+    val message by viewModel.message.collectAsStateWithLifecycle()
+    val status by viewModel.status.collectAsStateWithLifecycle()
 
     // Inicializa el juego
     LaunchedEffect(Unit) {

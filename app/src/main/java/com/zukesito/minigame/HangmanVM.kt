@@ -29,7 +29,7 @@ class HangmanVM : ViewModel() {
     private var _remainingLives = MutableStateFlow(HangmanRules.MAX_ERRORS)
     val remainingLives: StateFlow<Int> = _remainingLives.asStateFlow()
 
-    // Valor para la barra de progreso de errores
+    // Valor para progreso de errores
     private var _errorProgress = MutableStateFlow(0f)
     val errorProgress: StateFlow<Float> = _errorProgress.asStateFlow()
 
@@ -67,7 +67,7 @@ class HangmanVM : ViewModel() {
             return
         }
 
-        // Cuenta espaciado
+        // Cuenta aciertos
         val spaces = secretWord.count { it == letter }
 
         if (spaces > 0) {
@@ -96,7 +96,7 @@ class HangmanVM : ViewModel() {
         updateGame()
     }
 
-    // Inicia la partida solo si no hay palabra
+    // Inicia la partida solo si no hay palabra [IA]
     fun startGameIfNeeded(wordProvider: WordProvider) {
         if (secretWord.isEmpty()) {
             startNewGame(wordProvider)

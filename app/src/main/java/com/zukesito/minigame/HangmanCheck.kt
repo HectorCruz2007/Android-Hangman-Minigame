@@ -37,7 +37,7 @@ fun Int.toSpacesMessage(): String {
     return "Letra correcta en $this espacios"
 }
 
-// Convierte los errores a un valor de 0 a 1 para la barra de progreso
+// Convierte errores en valor 0 a 1 para llevar progreso
 fun Int.toErrorProgress(): Float {
     return this.toFloat() / HangmanRules.MAX_ERRORS
 }
