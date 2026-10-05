@@ -37,6 +37,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.zukesito.minigame.components.ProfileCard
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.Box
 
 @Composable
 fun HangmanPage(
@@ -49,6 +52,10 @@ fun HangmanPage(
     val errors by viewModel.errors.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
     val status by viewModel.status.collectAsStateWithLifecycle()
+
+    var nombre by remember {mutableStateOf("")}
+    var matricula by remember {mutableStateOf("")}
+    var showProfile by remember {mutableStateOf(false)}
 
     // Inicializa el juego
     LaunchedEffect(Unit) {
@@ -63,6 +70,15 @@ fun HangmanPage(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        if (showProfile) {
+            ProfileCard(
+                nombre = nombre,
+                matricula = matricula
+            )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         // Imagen del ahorcado
         val imageRes = errors.toHangmanImage()
         if (imageRes != null) {
@@ -111,6 +127,21 @@ fun HangmanPage(
                 Text("Reiniciar")
             }
         }
+
+        Spacer(modifier = Modifier.height(26.dp))
+
+        Button(
+            onClick = {
+                nombre = "Hector Lisandro Cruz Camacho"
+                matricula = "253387"
+                showProfile = !showProfile
+            },
+            colors = buttonColors(),
+            modifier = Modifier.width(200.dp)
+
+        ){
+            Text(if (showProfile) "Ocultar perfil" else "Perfil")
+        }
     }
 }
 
@@ -141,46 +172,54 @@ fun textFieldColors() = OutlinedTextFieldDefaults.colors(
 fun LetterInput(onLetterSubmit: (String) -> Unit) {
     var textInput by rememberSaveable { mutableStateOf("") }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        OutlinedTextField(
-            value = textInput,
-            onValueChange = { newValue ->
-                textInput = if (newValue.length <= 1) newValue else newValue.last().toString()
-            },
-            label = { Text("Letra") },
-            singleLine = true,
-            modifier = Modifier.width(80.dp),
-            colors = textFieldColors(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                capitalization = KeyboardCapitalization.Characters,
-                imeAction = ImeAction.Send
-            ),
-            keyboardActions = KeyboardActions(
-                onSend = {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = textInput,
+                onValueChange = { newValue ->
+                    textInput = if (newValue.length <= 1) newValue else newValue.last().toString()
+                },
+                label = { Text("Letra") },
+                singleLine = true,
+                modifier = Modifier.width(80.dp),
+                colors = textFieldColors(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    capitalization = KeyboardCapitalization.Characters,
+                    imeAction = ImeAction.Send
+                ),
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        if (textInput.isNotEmpty()) {
+                            onLetterSubmit(textInput)
+                            textInput = ""
+                        }
+                    }
+                )
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Button(
+                onClick = {
                     if (textInput.isNotEmpty()) {
                         onLetterSubmit(textInput)
                         textInput = ""
                     }
-                }
-            )
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Button(
-            onClick = {
-                if (textInput.isNotEmpty()) {
-                    onLetterSubmit(textInput)
-                    textInput = ""
-                }
-            },
-            colors = buttonColors(),
-            modifier = Modifier.width(100.dp),
-        ) {
-            Text("Enviar")
+                },
+                colors = buttonColors(),
+                modifier = Modifier.width(100.dp),
+            ) {
+                Text("Enviar")
+            }
         }
+
+        Spacer(modifier = Modifier.width(100.dp))
+
+
     }
 }
